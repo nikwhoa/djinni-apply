@@ -1,0 +1,12 @@
+node_modules/
+.env
+*.log
+dist/
+.DS_Store
+coverage/
+cookies.json
+applications/
+logs/
+cookies.json
+assets/
+jobs.json
