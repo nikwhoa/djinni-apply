@@ -13,6 +13,7 @@ An automated job application bot for Djinni.co that uses OpenAI to generate pers
 - 🌐 Configurable browser automation
 - 🔄 Session management with cookie support
 - 📊 Application tracking and storage
+- 🔍 Job filtering based on keywords
 
 ## Prerequisites
 
@@ -57,6 +58,9 @@ SCREENSHOTS_ENABLED=false
 # Authentication
 COOKIES_ENABLED=true
 COOKIES_PATH=./cookies.json
+# Job Filtering
+DJINNI_EXCLUDE_KEYWORDS=PHP,WordPress,Drupal
+DJINNI_REQUIRE_KEYWORDS=JavaScript,TypeScript
 ```
 2. Place your CV in `assets/cv.txt`
 3. Ensure all directories exist:
@@ -118,6 +122,10 @@ yarn test
 - `COOKIES_ENABLED`: Enable cookie persistence
 - `COOKIES_PATH`: Cookie storage location
 - `COOKIES_MAX_AGE`: Cookie validity period
+
+### Job Filtering Options
+- `DJINNI_EXCLUDE_KEYWORDS`: Keywords to exclude
+- `DJINNI_REQUIRE_KEYWORDS`: Required keywords
 
 ## Logging
 

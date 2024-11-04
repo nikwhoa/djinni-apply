@@ -32,6 +32,8 @@ const configSchema = z.object({
     password: z.string().min(1),
     baseUrl: z.string().url(),
     primaryKeyword: z.string().optional(),
+    excludeKeywords: z.array(z.string()).default([]),
+    requireKeywords: z.array(z.string()).default([]),
   }),
   browser: z.object({
     headless: z.boolean().default(true),
@@ -67,6 +69,8 @@ export const config: Config = {
     password: process.env.DJINNI_PASS || '',
     baseUrl: 'https://djinni.co',
     primaryKeyword: process.env.DJINNI_PRIMARY_KEYWORD || '',
+    excludeKeywords: process.env.DJINNI_EXCLUDE_KEYWORDS?.split(',') || [],
+    requireKeywords: process.env.DJINNI_REQUIRE_KEYWORDS?.split(',') || [],
   },
   browser: {
     headless: process.env.BROWSER_HEADLESS !== 'false',

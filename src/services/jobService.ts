@@ -3,6 +3,7 @@ import { logger } from '../utils/logger.js';
 import config from '../config/config.js';
 import fs from 'fs/promises';
 import { generateJobApplication } from './openAiService.js';
+import { isJobRelevant } from '../utils/jobFilters.js';
 
 interface Job {
   title: string;
@@ -41,7 +42,6 @@ export async function searchJobs(page: Page): Promise<Job[]> {
       }));
     });
 
-    // Visit each job and collect description of it
     const jobsWithApplications: Job[] = [];
     // const originalCV = await fs.readFile(config.cv.path, 'utf-8');
 
@@ -57,6 +57,17 @@ export async function searchJobs(page: Page): Promise<Job[]> {
           const descElement = document.querySelector('.job-post__description');
           return descElement?.textContent?.trim() || '';
         });
+
+        // Add keyword filtering
+        const isRelevant = isJobRelevant(job.title, description, job.company, {
+          excludeKeywords: config.djinni.excludeKeywords,
+          requireKeywords: config.djinni.requireKeywords,
+        });
+
+        if (!isRelevant) {
+          logger.info(`Skipping irrelevant job: ${job.title}`);
+          continue;
+        }
 
         const application = await generateJobApplication(description, job.title, job.company);
 
